@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia #017 - Graham Bytes</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="trivia-page">
+    <div class="sparkles">
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+    </div>
+
+    <div class="trivia-container">
+        <header class="trivia-header">
+            <div class="trivia-logo">
+                <span class="logo-icon">🍪</span>
+                <span class="logo-text">
+                    <span class="graham-text">Graham</span>
+                    <span class="bytes-text">Bytes</span>
+                </span>
+            </div>
+            <a href="../index.html" class="home-btn">🏠 Home</a>
+        </header>
+
+        <div class="score-tracker">
+            <div class="score-item">
+                <div class="score-label">Correct</div>
+                <div class="score-value correct-score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Incorrect</div>
+                <div class="score-value incorrect-score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Streak</div>
+                <div class="score-value streak-score">0</div>
+            </div>
+        </div>
+
+        <div class="trivia-card">
+            <span class="trivia-number">#017</span>
+            <span class="trivia-category">Computer History</span>
+            
+            <h2 class="question">What was the first computer virus called?</h2>
+            
+            <div class="options">
+                <button class="option" data-correct="false">ILOVEYOU</button>
+                <button class="option" data-correct="false">Morris Worm</button>
+                <button class="option" data-correct="true">Creeper</button>
+                <button class="option" data-correct="false">Melissa</button>
+            </div>
+
+            <div class="result hidden">
+                <div class="feedback"></div>
+                <div class="fun-fact">
+                    <h3>🧠 Did You Know?</h3>
+                    <p>The Creeper virus was created in 1971 by Bob Thomas as an experiment. It displayed the message "I'm the creeper, catch me if you can!" The first antivirus, called Reaper, was created specifically to delete Creeper!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="action-btn" onclick="goToRandomTrivia()">
+                🎲 Another Trivia
+            </button>
+            <a href="../index.html" class="action-btn secondary">
+                🏠 Back to Home
+            </a>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="copyright">© 2026 Graham Bytes. All rights reserved.</p>
+            <p class="footer-tagline">Snack Smart, Learn Tech! 🍪💻</p>
+        </div>
+    </footer>
+
+    <script src="../js/trivia.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia #027 - Graham Bytes</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="trivia-page">
+    <div class="sparkles">
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+    </div>
+
+    <div class="trivia-container">
+        <header class="trivia-header">
+            <div class="trivia-logo">
+                <span class="logo-icon">🍪</span>
+                <span class="logo-text">
+                    <span class="graham-text">Graham</span>
+                    <span class="bytes-text">Bytes</span>
+                </span>
+            </div>
+            <a href="../index.html" class="home-btn">🏠 Home</a>
+        </header>
+
+        <div class="score-tracker">
+            <div class="score-item">
+                <div class="score-label">Correct</div>
+                <div class="score-value correct-score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Incorrect</div>
+                <div class="score-value incorrect-score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Streak</div>
+                <div class="score-value streak-score">0</div>
+            </div>
+        </div>
+
+        <div class="trivia-card">
+            <span class="trivia-number">#027</span>
+            <span class="trivia-category">Internet</span>
+            
+            <h2 class="question">What was the first search engine on the internet?</h2>
+            
+            <div class="options">
+                <button class="option" data-correct="false">Google</button>
+                <button class="option" data-correct="false">Yahoo</button>
+                <button class="option" data-correct="true">Archie</button>
+                <button class="option" data-correct="false">AltaVista</button>
+            </div>
+
+            <div class="result hidden">
+                <div class="feedback"></div>
+                <div class="fun-fact">
+                    <h3>🧠 Did You Know?</h3>
+                    <p>Archie was created in 1990 by Alan Emtage, a Canadian student at McGill University. The name "Archie" comes from "archive" without the 'v'. It could only search file names, not content. Google wouldn't come along until 1998!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="action-btn" onclick="goToRandomTrivia()">
+                🎲 Another Trivia
+            </button>
+            <a href="../index.html" class="action-btn secondary">
+                🏠 Back to Home
+            </a>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="copyright">© 2026 Graham Bytes. All rights reserved.</p>
+            <p class="footer-tagline">Snack Smart, Learn Tech! 🍪💻</p>
+        </div>
+    </footer>
+
+    <script src="../js/trivia.js"></script>
+</body>
+</html>
