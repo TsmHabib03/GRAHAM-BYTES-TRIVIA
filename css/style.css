@@ -267,6 +267,52 @@ h1, h2, h3 {
     font-size: 0.95rem;
 }
 
+/* QR Print Section */
+.qr-print-section {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.qr-print-card {
+    background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--secondary-light-blue) 100%);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+}
+
+.qr-print-card h3 {
+    color: var(--accent-white);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.qr-print-card p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.print-qr-btn {
+    display: inline-block;
+    background: var(--accent-white);
+    color: var(--secondary-blue);
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.print-qr-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: var(--accent-yellow);
+    color: var(--text-dark);
+}
+
 /* ==========================================
    TRIVIA PAGE STYLES
    ========================================== */
