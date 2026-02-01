@@ -10,7 +10,7 @@ os.makedirs(output_dir, exist_ok=True)
 
 # Base URL for the trivia pages (GitHub Pages format)
 # Update this with your actual GitHub Pages URL after deployment
-base_url = "https://yourusername.github.io/graham-bytes-trivia/trivia"
+base_url = "https://tsmhabib03.github.io/GRAHAM-BYTES-TRIVIA/trivia"
 
 # Generate QR codes for trivia 001-050
 for i in range(1, 51):
