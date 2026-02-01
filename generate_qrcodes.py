@@ -40,4 +40,4 @@ for i in range(1, 51):
 
 print(f"\n🎉 All 50 QR codes have been saved to the '{output_dir}' folder!")
 print(f"\n⚠️  IMPORTANT: Update the 'base_url' in this script with your actual GitHub Pages URL")
-print(f"   Example: https://yourusername.github.io/graham-bytes-trivia/trivia")
+print(f"   Example: https://tsmhabib03.github.io/GRAHAM-BYTES-TRIVIA/trivia")
