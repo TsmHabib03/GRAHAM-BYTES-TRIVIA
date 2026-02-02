@@ -4,88 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graham Bytes - Premium ICT-Themed Graham Balls</title>
-    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="landing-page">
+    <!-- Decorative sparkle stars -->
     <div class="sparkles">
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
+        <svg class="sparkle-svg" style="top: 10%; left: 20%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636"/>
+        </svg>
+        <svg class="sparkle-svg" style="top: 25%; left: 85%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636"/>
+        </svg>
+        <svg class="sparkle-svg" style="top: 65%; left: 8%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636"/>
+        </svg>
+        <svg class="sparkle-svg" style="top: 80%; left: 90%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636"/>
+        </svg>
     </div>
     
     <main class="landing-container">
         <header class="brand-header">
-            <div class="logo-container">
-                <div class="mascot-wrapper">
-                    <div class="graham-mascot">🍪</div>
-                    <div class="code-chip">💻</div>
-                </div>
-            </div>
-            <h1 class="brand-title">
-                <span class="graham">Graham</span>
-                <span class="bytes">Bytes</span>
-            </h1>
-            <p class="tagline">Premium ICT-Themed Graham Balls</p>
+            <img src="logo.png" alt="Graham Bytes Logo" class="logo-img">
+            <h1 class="brand-title">Graham Bytes</h1>
+            <p class="tagline">Snack Smart, Learn Tech.</p>
         </header>
 
         <section class="welcome-section">
-            <div class="welcome-card">
-                <h2>🎮 Welcome, Tech Snacker!</h2>
-                <p>Ready to test your ICT knowledge while enjoying your delicious graham balls?</p>
-                <p class="highlight">Tap the button below to start a random trivia challenge!</p>
+            <div class="welcome-card glass-panel">
+                <h2>
+                    <svg class="icon icon-inline" viewBox="0 0 256 256"><path d="M220.59,56.22a8,8,0,0,0-8.36.59l-48,36a8,8,0,0,0,9.54,12.84L200,86.4V176a32,32,0,0,1-64,0V80a48,48,0,0,0-96,0v96.6l-26.23-19.17a8,8,0,1,0-9.54,12.84l48,35.06,.06,0a7.93,7.93,0,0,0,4.71,1.55,8,8,0,0,0,8-8V80a32,32,0,0,1,64,0v96a48,48,0,0,0,96,0V86.4l26.23,19.25a8,8,0,0,0,9.54-12.84Z" fill="currentColor"/></svg>
+                    Welcome, Tech Snacker!
+                </h2>
+                <p>Combine your love for sweets with your passion for technology. Each bite comes with a byte of knowledge!</p>
+                <span class="highlight">Ready for a challenge?</span>
             </div>
         </section>
 
         <section class="cta-section">
             <button class="start-trivia-btn" onclick="goToRandomTrivia()">
-                <span class="btn-icon">🎲</span>
-                <span class="btn-text">Start Random Trivia!</span>
-                <span class="btn-sparkle">✨</span>
+                <svg class="icon icon-btn" viewBox="0 0 256 256"><path d="M192,32H136a8,8,0,0,0-8,8V96H64a16,16,0,0,0-16,16v80a16,16,0,0,0,16,16h56v40a8,8,0,0,0,8,8h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32ZM120,192H64V112h56Zm72,48H136V208h40a8,8,0,0,0,0-16H136V176h40a8,8,0,0,0,0-16H136V144h40a8,8,0,0,0,0-16H136V112h40a8,8,0,0,0,0-16H136V80h40a8,8,0,0,0,0-16H136V48h56Z" fill="currentColor"/></svg>
+                <span class="btn-text">Start Random Trivia</span>
+                <svg class="icon icon-btn-sparkle" viewBox="0 0 256 256"><path d="M208,144a15.78,15.78,0,0,1-10.42,14.94l-51.65,19-19,51.61a15.92,15.92,0,0,1-29.88,0L78,178l-51.62-19a15.92,15.92,0,0,1,0-29.88l51.65-19,19-51.61a15.92,15.92,0,0,1,29.88,0l19,51.65,51.61,19A15.78,15.78,0,0,1,208,144ZM152,48h16V64a8,8,0,0,0,16,0V48h16a8,8,0,0,0,0-16H184V16a8,8,0,0,0-16,0V32H152a8,8,0,0,0,0,16Zm88,32h-8V72a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V96h8a8,8,0,0,0,0-16Z" fill="currentColor"/></svg>
             </button>
-            <p class="trivia-count">50+ exciting ICT trivia questions await!</p>
+            <p class="trivia-count">50+ ICT Questions Available</p>
         </section>
 
         <section class="features-section">
             <div class="feature">
-                <span class="feature-icon">🧠</span>
+                <svg class="icon icon-feature" viewBox="0 0 256 256"><path d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.5C39.74,56.83,78.26,17.15,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.64,71.64,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h24V147.31L90.34,117.66a8,8,0,0,1,11.32-11.32L128,132.69l26.34-26.35a8,8,0,0,1,11.32,11.32L136,147.31V192h24v-6a32.12,32.12,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Z" fill="currentColor"/></svg>
                 <span class="feature-text">Learn Fun Facts</span>
             </div>
             <div class="feature">
-                <span class="feature-icon">🎯</span>
-                <span class="feature-text">Test Your Knowledge</span>
+                <svg class="icon icon-feature" viewBox="0 0 256 256"><path d="M232,128A104,104,0,1,0,79.12,219.82L45.07,231.17a16,16,0,0,0,19.76,19.76l11.35-34.05A104,104,0,0,0,232,128Zm-92,52a12,12,0,1,1,12-12A12,12,0,0,1,140,180Zm16-52a8,8,0,0,1-8,8,8,8,0,0,0-8,8v16a8,8,0,0,1-16,0V144a24,24,0,1,1,32-22.62Z" fill="currentColor"/></svg>
+                <span class="feature-text">Test Your Skills</span>
             </div>
             <div class="feature">
-                <span class="feature-icon">🔄</span>
-                <span class="feature-text">Unlimited Plays</span>
+                <svg class="icon icon-feature" viewBox="0 0 256 256"><path d="M223.69,71.12l-56-56a16,16,0,0,0-22.63,0L71,89.18A16,16,0,0,0,71,111.8l18.34,18.34L43.9,168.69a16,16,0,0,0-2.72,18.61l-24,24a8,8,0,0,0,11.32,11.32l24-24a16,16,0,0,0,18.61-2.72l38.55-45.44L128.2,169a16,16,0,0,0,22.62,0l72.87-75.21A16,16,0,0,0,223.69,71.12ZM139.52,157.68l-18.34-18.34a16,16,0,0,0-22.62,0L60,184l-4-4,45.44-38.55a16,16,0,0,0,0-22.62L83.14,100.51l56.57-56.57,56,56Z" fill="currentColor"/></svg>
+                <span class="feature-text">Tasty Snacks</span>
             </div>
-        </section>
-
-        <section class="about-section">
-            <h3>About Graham Bytes</h3>
-            <p>Graham Bytes combines the delicious taste of premium graham balls with the exciting world of technology! Each bite is a byte of happiness, and each QR code scan brings you a new tech trivia adventure.</p>
         </section>
 
         <section class="qr-print-section">
             <div class="qr-print-card">
-                <h3>🖨️ Print QR Codes</h3>
-                <p>Need QR codes for your Graham Bytes packaging? Download and print all 50 trivia QR codes!</p>
+                <h3>
+                    <svg class="icon icon-inline" viewBox="0 0 256 256"><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48ZM32,64H224V96H32ZM224,192H32V112H224v80Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z" fill="currentColor"/></svg>
+                    For Distributors
+                </h3>
+                <p>Need packaging codes? Print all 50 unique QR codes here.</p>
                 <a href="qrcodes/print-qrcodes.html" class="print-qr-btn">
-                    <span>📄 View Printable QR Codes</span>
+                    <svg class="icon icon-inline" viewBox="0 0 256 256"><path d="M214.67,166.67A8,8,0,0,0,208,164H180V128a8,8,0,0,0-8-8H84a8,8,0,0,0-8,8v36H48a8,8,0,0,0-6.67,3.57,8.15,8.15,0,0,0-.72,7.57l24,60A8,8,0,0,0,72,240H184a8,8,0,0,0,7.39-4.94l24-60A8.15,8.15,0,0,0,214.67,166.67ZM92,136h72v28H92Zm86.34,88H77.66l-19.2-48H197.54ZM216,72V184a8,8,0,0,1-16,0V72a8,8,0,0,0-8-8H64a8,8,0,0,0-8,8V184a8,8,0,0,1-16,0V72A24,24,0,0,1,64,48H192A24,24,0,0,1,216,72Z" fill="currentColor"/></svg>
+                    View Printable QR Codes
                 </a>
             </div>
         </section>
     </main>
 
     <footer class="main-footer">
-        <div class="footer-content">
-            <p class="copyright">© 2026 Graham Bytes. All rights reserved.</p>
-            <p class="footer-tagline">Snack Smart, Learn Tech! 🍪💻</p>
-        </div>
+        <p class="copyright">© 2026 Graham Bytes.</p>
+        <p>Designing the future, one graham ball at a time.</p>
     </footer>
 
     <script src="js/random.js"></script>

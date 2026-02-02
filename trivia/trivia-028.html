@@ -1,53 +1,54 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivia #028 - Graham Bytes</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Graham Bytes - Trivia #028</title>
+    
+    <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="trivia-page">
-    <div class="sparkles">
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
-        <span class="sparkle"></span>
-    </div>
-
+    
     <div class="trivia-container">
+        <!-- Header -->
         <header class="trivia-header">
             <div class="trivia-logo">
-                <span class="logo-icon">🍪</span>
-                <span class="logo-text">
-                    <span class="graham-text">Graham</span>
-                    <span class="bytes-text">Bytes</span>
-                </span>
+                <img src="../logo.png" alt="Logo" class="trivia-logo-img">
+                <span>Graham Bytes</span>
             </div>
-            <a href="../index.html" class="home-btn">🏠 Home</a>
+            <a href="../index.html" class="home-btn">
+                <svg class="icon icon-inline" viewBox="0 0 256 256"><path d="M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V160h32v56a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68ZM208,208H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48V120l80-80,80,80Z" fill="currentColor"/></svg>
+                Home
+            </a>
         </header>
 
-        <div class="score-tracker">
+        <!-- Score Board -->
+        <div class="score-tracker glass-panel">
             <div class="score-item">
                 <div class="score-label">Correct</div>
                 <div class="score-value correct-score">0</div>
             </div>
             <div class="score-item">
-                <div class="score-label">Incorrect</div>
-                <div class="score-value incorrect-score">0</div>
-            </div>
-            <div class="score-item">
                 <div class="score-label">Streak</div>
                 <div class="score-value streak-score">0</div>
             </div>
+            <div class="score-item">
+                <div class="score-label">Missed</div>
+                <div class="score-value incorrect-score">0</div>
+            </div>
         </div>
 
-        <div class="trivia-card">
-            <span class="trivia-number">#028</span>
-            <span class="trivia-category">Programming</span>
+        <!-- Question Card -->
+        <main class="trivia-card glass-panel" id="question-area">
+            <div class="trivia-meta">
+                <span class="trivia-number">#028</span>
+                <span class="trivia-category">Programming</span>
+            </div>
             
             <h2 class="question">What does API stand for?</h2>
             
@@ -58,32 +59,40 @@
                 <button class="option" data-correct="false">Application Process Interface</button>
             </div>
 
+            <!-- Feedback / Result Area -->
             <div class="result hidden">
                 <div class="feedback"></div>
+                
                 <div class="fun-fact">
-                    <h3>🧠 Did You Know?</h3>
+                    <h3>
+                        <svg class="icon icon-inline" viewBox="0 0 256 256"><path d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.5C39.74,56.83,78.26,17.15,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.64,71.64,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h24V147.31L90.34,117.66a8,8,0,0,1,11.32-11.32L128,132.69l26.34-26.35a8,8,0,0,1,11.32,11.32L136,147.31V192h24v-6a32.12,32.12,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Z" fill="currentColor"/></svg>
+                        Did You Know?
+                    </h3>
                     <p>APIs are like waiters in a restaurant - they take your request to the kitchen (server) and bring back what you ordered (data). Almost every app you use relies on APIs to communicate with other services!</p>
                 </div>
-            </div>
-        </div>
 
-        <div class="actions">
-            <button class="action-btn" onclick="goToRandomTrivia()">
-                🎲 Another Trivia
-            </button>
-            <a href="../index.html" class="action-btn secondary">
-                🏠 Back to Home
-            </a>
-        </div>
+                <div class="actions">
+                    <button class="action-btn primary" onclick="goToRandomTrivia()">
+                        <svg class="icon icon-inline" viewBox="0 0 256 256"><path d="M192,32H136a8,8,0,0,0-8,8V96H64a16,16,0,0,0-16,16v80a16,16,0,0,0,16,16h56v40a8,8,0,0,0,8,8h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32ZM120,192H64V112h56Zm72,48H136V208h40a8,8,0,0,0,0-16H136V176h40a8,8,0,0,0,0-16H136V144h40a8,8,0,0,0,0-16H136V112h40a8,8,0,0,0,0-16H136V80h40a8,8,0,0,0,0-16H136V48h56Z" fill="currentColor"/></svg>
+                        Next Question
+                    </button>
+                </div>
+            </div>
+        </main>
     </div>
 
     <footer class="main-footer">
         <div class="footer-content">
-            <p class="copyright">© 2026 Graham Bytes. All rights reserved.</p>
-            <p class="footer-tagline">Snack Smart, Learn Tech! 🍪💻</p>
+            <p class="copyright">© 2026 Graham Bytes</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="../js/trivia.js"></script>
+    <script src="../js/random.js"></script>
+    <script>
+        // Init the trivia logic
+        document.addEventListener('DOMContentLoaded', initTrivia);
+    </script>
 </body>
 </html>

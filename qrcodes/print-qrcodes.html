@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graham Bytes QR Codes - Print Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ==========================================
+           GRAHAM BYTES QR CODE PRINT SHEET
+           Three Sizes with Clean Modern Design
+           ========================================== */
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,401 +19,669 @@
 
         @page {
             size: A4;
-            margin: 10mm;
+            margin: 8mm;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: white;
-            padding: 10mm;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 18px;
+            font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+            background: #f8f9fa;
             color: #333;
         }
 
-        .print-info {
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 15px;
+        /* ==========================================
+           SCREEN-ONLY STYLES (Instructions)
+           ========================================== */
+        .screen-only {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .qr-grid {
+        .header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header-bar img {
+            height: 70px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .header-bar h1 {
+            font-size: 1.6rem;
+            color: #D35400;
+            font-weight: 700;
+        }
+
+        .instructions {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .instructions h2 {
+            color: #D35400;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Size Selection Cards */
+        .size-cards {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 5mm;
-            justify-items: center;
+            gap: 12px;
+            margin: 25px 0;
         }
 
-        .qr-item {
-            border: 1px dashed #ccc;
-            padding: 3mm;
+        .size-card {
+            background: linear-gradient(135deg, #FFF8F0, #FFF0E0);
+            border: 2px solid #F2994A;
+            border-radius: 12px;
+            padding: 20px 15px;
             text-align: center;
-            width: 45mm;
-            height: 55mm;
+            transition: all 0.3s ease;
+        }
+
+        .size-card:hover {
+            border-color: #D35400;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(211, 84, 0, 0.15);
+        }
+
+        .size-card h3 {
+            color: #D35400;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .size-card .dimensions {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #333;
+            line-height: 1;
+        }
+
+        .size-card .use-case {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        .instructions ol {
+            margin: 20px 0 0 25px;
+            line-height: 2;
+            color: #555;
+        }
+
+        .instructions ol li {
+            padding-left: 8px;
+        }
+
+        .instructions ol strong {
+            color: #333;
+        }
+
+        /* Print Buttons */
+        .print-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .print-btn {
+            padding: 14px 28px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn.primary {
+            background: linear-gradient(135deg, #F2994A, #D35400);
+            color: white;
+            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.3);
+        }
+
+        .print-btn.secondary {
+            background: white;
+            color: #D35400;
+            border: 2px solid #D35400;
+        }
+
+        .print-btn.tertiary {
+            background: #f5f5f5;
+            color: #666;
+            border: 2px solid #ccc;
+        }
+
+        .print-btn.cupcake {
+            background: linear-gradient(135deg, #E91E63, #C2185B);
+            color: white;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+        }
+
+        .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(211, 84, 0, 0.3);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #D35400;
+        }
+
+        /* ==========================================
+           PRINT SECTIONS
+           ========================================== */
+        .print-section {
+            display: none;
+            background: white;
+            padding: 5mm;
+        }
+
+        .page-header {
+            text-align: center;
+            padding-bottom: 4mm;
+            margin-bottom: 4mm;
+            border-bottom: 1px solid #eee;
+        }
+
+        .page-header img {
+            height: 12mm;
+            width: auto;
+        }
+
+        .page-header p {
+            font-size: 8pt;
+            color: #999;
+            margin-top: 2mm;
+        }
+
+        /* ==========================================
+           LARGE SIZE (50mm) - Clamshell Box Lids
+           4 per row, ~12 per page
+           ========================================== */
+        .grid-large {
+            display: grid;
+            grid-template-columns: repeat(4, 47mm);
+            gap: 3mm;
+            justify-content: center;
+        }
+
+        .sticker-large {
+            width: 47mm;
+            height: 62mm;
+            border: 1.5px dashed #bbb;
+            border-radius: 4mm;
+            padding: 3mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            page-break-inside: avoid;
+        }
+
+        .sticker-large .card-logo {
+            height: 12mm;
+            width: auto;
+        }
+
+        .sticker-large .qr-image {
+            width: 32mm;
+            height: 32mm;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        .sticker-large .scan-text {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #F2994A;
+        }
+
+        .grid-large .sticker-large:nth-child(12n) {
+            page-break-after: always;
+        }
+
+        /* ==========================================
+           MEDIUM SIZE (30mm) - Standard Packaging
+           6 per row, ~30 per page
+           ========================================== */
+        .grid-medium {
+            display: grid;
+            grid-template-columns: repeat(6, 31mm);
+            gap: 2mm;
+            justify-content: center;
+        }
+
+        .sticker-medium {
+            width: 31mm;
+            height: 42mm;
+            border: 1.5px dashed #bbb;
+            border-radius: 3mm;
+            padding: 2mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            page-break-inside: avoid;
+        }
+
+        .sticker-medium .card-logo {
+            height: 7mm;
+            width: auto;
+        }
+
+        .sticker-medium .qr-image {
+            width: 20mm;
+            height: 20mm;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        .sticker-medium .scan-text {
+            font-size: 7pt;
+            font-weight: 700;
+            color: #F2994A;
+        }
+
+        .grid-medium .sticker-medium:nth-child(36n) {
+            page-break-after: always;
+        }
+
+        /* ==========================================
+           SMALL SIZE (20mm) - Cupcake Liners
+           9 per row, ~54 per page
+           ========================================== */
+        .grid-small {
+            display: grid;
+            grid-template-columns: repeat(9, 21mm);
+            gap: 1.5mm;
+            justify-content: center;
+        }
+
+        .sticker-small {
+            width: 21mm;
+            height: 28mm;
+            border: 1.5px dashed #bbb;
+            border-radius: 2mm;
+            padding: 1.5mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            page-break-inside: avoid;
+        }
+
+        .sticker-small .card-logo {
+            height: 5mm;
+            width: auto;
+        }
+
+        .sticker-small .qr-image {
+            width: 15mm;
+            height: 15mm;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        .sticker-small .scan-text {
+            font-size: 5pt;
+            font-weight: 700;
+            color: #F2994A;
+        }
+
+        .grid-small .sticker-small:nth-child(54n) {
+            page-break-after: always;
+        }
+
+        /* ==========================================
+           COMPACT SIZE (25mm) - 3oz Cupcake Liners
+           Square design for circular liner bottoms
+           7 per row, ~49 per page
+           ========================================== */
+        .grid-compact {
+            display: grid;
+            grid-template-columns: repeat(7, 26mm);
+            gap: 2mm;
+            justify-content: center;
+        }
+
+        .sticker-compact {
+            width: 26mm;
+            height: 26mm;
+            border: 1.5px dashed #bbb;
+            border-radius: 50%;
+            padding: 1.5mm;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background: white;
             page-break-inside: avoid;
         }
 
-        .qr-item img {
-            width: 35mm;
-            height: 35mm;
-            object-fit: contain;
+        .sticker-compact .card-logo {
+            height: 4mm;
+            width: auto;
+            margin-bottom: 0.5mm;
         }
 
-        .qr-label {
-            margin-top: 2mm;
-            font-size: 10px;
-            font-weight: bold;
-            color: #333;
+        .sticker-compact .qr-image {
+            width: 15mm;
+            height: 15mm;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
         }
 
-        .qr-brand {
-            font-size: 8px;
-            color: #e67e22;
-            margin-top: 1mm;
+        .sticker-compact .scan-text {
+            font-size: 4pt;
+            font-weight: 700;
+            color: #F2994A;
+            margin-top: 0.5mm;
         }
 
-        /* Page break after every 20 items (5 rows x 4 columns) */
-        .qr-item:nth-child(20n) {
+        .grid-compact .sticker-compact:nth-child(49n) {
             page-break-after: always;
         }
 
+        /* ==========================================
+           PRINT MEDIA QUERIES
+           ========================================== */
         @media print {
             body {
-                padding: 0;
+                background: white;
             }
-            
-            .no-print {
+
+            .screen-only {
                 display: none !important;
             }
 
-            .qr-item {
-                border: 1px dashed #999;
+            .print-section {
+                display: none !important;
+            }
+
+            body.preview-large .print-section.large-section {
+                display: block !important;
+            }
+
+            body.preview-medium .print-section.medium-section {
+                display: block !important;
+            }
+
+            body.preview-small .print-section.small-section {
+                display: block !important;
+            }
+
+            body.preview-compact .print-section.compact-section {
+                display: block !important;
+            }
+
+            .sticker-large,
+            .sticker-medium,
+            .sticker-small,
+            .sticker-compact {
+                border: 1.5px dashed #999;
             }
         }
 
-        .print-btn {
+        /* Screen preview modes */
+        body.preview-large .screen-only,
+        body.preview-medium .screen-only,
+        body.preview-small .screen-only {
+            display: none;
+        }
+
+        body.preview-large .print-section.large-section {
             display: block;
-            margin: 20px auto;
-            padding: 15px 40px;
-            font-size: 18px;
-            background: #e67e22;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 20px;
+            max-width: 210mm;
+            margin: 0 auto;
         }
 
-        .print-btn:hover {
-            background: #d35400;
+        body.preview-medium .print-section.medium-section {
+            display: block;
+            padding: 20px;
+            max-width: 210mm;
+            margin: 0 auto;
         }
 
-        .instructions {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            padding: 15px;
-            margin: 20px auto;
-            max-width: 600px;
-            border-radius: 8px;
-            font-size: 14px;
+        body.preview-small .print-section.small-section {
+            display: block;
+            padding: 20px;
+            max-width: 210mm;
+            margin: 0 auto;
         }
 
-        .instructions h3 {
-            margin-bottom: 10px;
-            color: #856404;
+        body.preview-compact .screen-only {
+            display: none;
         }
 
-        .instructions ul {
-            margin-left: 20px;
-            color: #856404;
+        body.preview-compact .print-section.compact-section {
+            display: block;
+            padding: 20px;
+            max-width: 210mm;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-    <div class="no-print">
-        <h1>🍪 Graham Bytes QR Codes - Print Sheet</h1>
-        
+    <!-- ==========================================
+         SCREEN-ONLY: Instructions & Print Buttons
+         ========================================== -->
+    <div class="screen-only">
+        <div class="header-bar">
+            <img src="../logo.png" alt="Graham Bytes Logo">
+            <h1>QR Code Print Sheet</h1>
+        </div>
+
         <div class="instructions">
-            <h3>📋 Printing Instructions:</h3>
-            <ul>
-                <li>Click the "Print QR Codes" button below</li>
-                <li>Select your printer and set to A4 paper size</li>
-                <li>Print in actual size (100% scale, no fit-to-page)</li>
-                <li>Cut along the dashed lines</li>
-                <li>Each QR code is labeled with its trivia number</li>
-            </ul>
+            <h2>📦 Choose Your Sticker Size</h2>
+            
+            <div class="size-cards">
+                <div class="size-card">
+                    <h3>Large</h3>
+                    <div class="dimensions">50mm</div>
+                    <div class="use-case">Clamshell Box Lids</div>
+                </div>
+                <div class="size-card">
+                    <h3>Medium</h3>
+                    <div class="dimensions">30mm</div>
+                    <div class="use-case">Standard Packaging</div>
+                </div>
+                <div class="size-card">
+                    <h3>Small</h3>
+                    <div class="dimensions">20mm</div>
+                    <div class="use-case">Small Labels</div>
+                </div>
+                <div class="size-card" style="border-color: #E91E63; background: linear-gradient(135deg, #FCE4EC, #F8BBD9);">
+                    <h3 style="color: #C2185B;">🧁 Cupcake</h3>
+                    <div class="dimensions">25mm</div>
+                    <div class="use-case">3oz Liner Bottoms</div>
+                </div>
+            </div>
+
+            <h2>🖨️ Printing Instructions</h2>
+            <ol>
+                <li>Click the <strong>print button</strong> for your desired size</li>
+                <li>Select <strong>A4 paper</strong> in print dialog</li>
+                <li>Set scale to <strong>100% (Actual Size)</strong></li>
+                <li>Use <strong>sticker paper</strong> for kiss-cut printing</li>
+                <li>Cut along the <strong>dashed lines</strong></li>
+            </ol>
         </div>
 
-        <button class="print-btn" onclick="window.print()">🖨️ Print QR Codes</button>
+        <div class="print-buttons">
+            <button class="print-btn primary" onclick="printLarge()">
+                Print Large (50mm)
+            </button>
+            <button class="print-btn secondary" onclick="printMedium()">
+                Print Medium (30mm)
+            </button>
+            <button class="print-btn tertiary" onclick="printSmall()">
+                Print Small (20mm)
+            </button>
+            <button class="print-btn cupcake" onclick="printCompact()">
+                🧁 Print Cupcake (25mm)
+            </button>
+        </div>
+
+        <a href="../index.html" class="back-link">← Back to Graham Bytes Trivia</a>
     </div>
 
-    <h1 class="print-only" style="margin-top: 5mm;">🍪 Graham Bytes - ICT Trivia QR Codes</h1>
-    <p class="print-info">Cut along dashed lines | Each QR links to a unique trivia question</p>
-
-    <div class="qr-grid">
-        <div class="qr-item">
-            <img src="qr-trivia-001.png" alt="Trivia 001">
-            <div class="qr-label">Trivia #001</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
+    <!-- ==========================================
+         LARGE STICKERS (50mm) - Clamshell Box
+         ========================================== -->
+    <div class="print-section large-section">
+        <div class="page-header">
+            <img src="../logo.png" alt="Graham Bytes">
+            <p>Large Stickers (50mm) • Clamshell Box Lids • Cut along dashed lines</p>
         </div>
-        <div class="qr-item">
-            <img src="qr-trivia-002.png" alt="Trivia 002">
-            <div class="qr-label">Trivia #002</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-003.png" alt="Trivia 003">
-            <div class="qr-label">Trivia #003</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-004.png" alt="Trivia 004">
-            <div class="qr-label">Trivia #004</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-005.png" alt="Trivia 005">
-            <div class="qr-label">Trivia #005</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-006.png" alt="Trivia 006">
-            <div class="qr-label">Trivia #006</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-007.png" alt="Trivia 007">
-            <div class="qr-label">Trivia #007</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-008.png" alt="Trivia 008">
-            <div class="qr-label">Trivia #008</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-009.png" alt="Trivia 009">
-            <div class="qr-label">Trivia #009</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-010.png" alt="Trivia 010">
-            <div class="qr-label">Trivia #010</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-011.png" alt="Trivia 011">
-            <div class="qr-label">Trivia #011</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-012.png" alt="Trivia 012">
-            <div class="qr-label">Trivia #012</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-013.png" alt="Trivia 013">
-            <div class="qr-label">Trivia #013</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-014.png" alt="Trivia 014">
-            <div class="qr-label">Trivia #014</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-015.png" alt="Trivia 015">
-            <div class="qr-label">Trivia #015</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-016.png" alt="Trivia 016">
-            <div class="qr-label">Trivia #016</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-017.png" alt="Trivia 017">
-            <div class="qr-label">Trivia #017</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-018.png" alt="Trivia 018">
-            <div class="qr-label">Trivia #018</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-019.png" alt="Trivia 019">
-            <div class="qr-label">Trivia #019</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-020.png" alt="Trivia 020">
-            <div class="qr-label">Trivia #020</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-021.png" alt="Trivia 021">
-            <div class="qr-label">Trivia #021</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-022.png" alt="Trivia 022">
-            <div class="qr-label">Trivia #022</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-023.png" alt="Trivia 023">
-            <div class="qr-label">Trivia #023</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-024.png" alt="Trivia 024">
-            <div class="qr-label">Trivia #024</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-025.png" alt="Trivia 025">
-            <div class="qr-label">Trivia #025</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-026.png" alt="Trivia 026">
-            <div class="qr-label">Trivia #026</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-027.png" alt="Trivia 027">
-            <div class="qr-label">Trivia #027</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-028.png" alt="Trivia 028">
-            <div class="qr-label">Trivia #028</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-029.png" alt="Trivia 029">
-            <div class="qr-label">Trivia #029</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-030.png" alt="Trivia 030">
-            <div class="qr-label">Trivia #030</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-031.png" alt="Trivia 031">
-            <div class="qr-label">Trivia #031</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-032.png" alt="Trivia 032">
-            <div class="qr-label">Trivia #032</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-033.png" alt="Trivia 033">
-            <div class="qr-label">Trivia #033</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-034.png" alt="Trivia 034">
-            <div class="qr-label">Trivia #034</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-035.png" alt="Trivia 035">
-            <div class="qr-label">Trivia #035</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-036.png" alt="Trivia 036">
-            <div class="qr-label">Trivia #036</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-037.png" alt="Trivia 037">
-            <div class="qr-label">Trivia #037</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-038.png" alt="Trivia 038">
-            <div class="qr-label">Trivia #038</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-039.png" alt="Trivia 039">
-            <div class="qr-label">Trivia #039</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-040.png" alt="Trivia 040">
-            <div class="qr-label">Trivia #040</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-041.png" alt="Trivia 041">
-            <div class="qr-label">Trivia #041</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-042.png" alt="Trivia 042">
-            <div class="qr-label">Trivia #042</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-043.png" alt="Trivia 043">
-            <div class="qr-label">Trivia #043</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-044.png" alt="Trivia 044">
-            <div class="qr-label">Trivia #044</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-045.png" alt="Trivia 045">
-            <div class="qr-label">Trivia #045</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-046.png" alt="Trivia 046">
-            <div class="qr-label">Trivia #046</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-047.png" alt="Trivia 047">
-            <div class="qr-label">Trivia #047</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-048.png" alt="Trivia 048">
-            <div class="qr-label">Trivia #048</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-049.png" alt="Trivia 049">
-            <div class="qr-label">Trivia #049</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
-        <div class="qr-item">
-            <img src="qr-trivia-050.png" alt="Trivia 050">
-            <div class="qr-label">Trivia #050</div>
-            <div class="qr-brand">🍪 Graham Bytes</div>
-        </div>
+        <div class="grid-large" id="grid-large"></div>
     </div>
 
-    <div class="no-print" style="text-align: center; margin-top: 30px; padding: 20px; color: #666;">
-        <p>Total: 50 QR Codes | 4 per row | ~3 pages when printed on A4</p>
-        <button class="print-btn" onclick="window.print()">🖨️ Print QR Codes</button>
+    <!-- ==========================================
+         MEDIUM STICKERS (30mm) - Standard
+         ========================================== -->
+    <div class="print-section medium-section">
+        <div class="page-header">
+            <img src="../logo.png" alt="Graham Bytes">
+            <p>Medium Stickers (30mm) • Standard Packaging • Cut along dashed lines</p>
+        </div>
+        <div class="grid-medium" id="grid-medium"></div>
     </div>
+
+    <!-- ==========================================
+         SMALL STICKERS (20mm) - Small Labels
+         ========================================== -->
+    <div class="print-section small-section">
+        <div class="page-header">
+            <img src="../logo.png" alt="Graham Bytes">
+            <p>Small Stickers (20mm) • Small Labels • Cut along dashed lines</p>
+        </div>
+        <div class="grid-small" id="grid-small"></div>
+    </div>
+
+    <!-- ==========================================
+         COMPACT STICKERS (25mm) - 3oz Cupcake Liners
+         ========================================== -->
+    <div class="print-section compact-section">
+        <div class="page-header">
+            <img src="../logo.png" alt="Graham Bytes">
+            <p>Cupcake Liner Stickers (25mm Round) • 3oz Liner Bottoms • Cut along circles</p>
+        </div>
+        <div class="grid-compact" id="grid-compact"></div>
+    </div>
+
+    <script>
+        const totalTrivia = 50;
+        
+        function generateStickers() {
+            const gridLarge = document.getElementById('grid-large');
+            const gridMedium = document.getElementById('grid-medium');
+            const gridSmall = document.getElementById('grid-small');
+            const gridCompact = document.getElementById('grid-compact');
+            
+            for (let i = 1; i <= totalTrivia; i++) {
+                const num = String(i).padStart(3, '0');
+                const qrSrc = `qr-trivia-${num}.png`;
+                
+                // Large sticker (50mm)
+                gridLarge.innerHTML += `
+                    <div class="sticker-large">
+                        <img src="../logo.png" alt="Graham Bytes" class="card-logo">
+                        <img src="${qrSrc}" alt="QR Code" class="qr-image">
+                        <span class="scan-text">Scan Me!</span>
+                    </div>
+                `;
+                
+                // Medium sticker (30mm)
+                gridMedium.innerHTML += `
+                    <div class="sticker-medium">
+                        <img src="../logo.png" alt="Graham Bytes" class="card-logo">
+                        <img src="${qrSrc}" alt="QR Code" class="qr-image">
+                        <span class="scan-text">Scan Me!</span>
+                    </div>
+                `;
+                
+                // Small sticker (20mm)
+                gridSmall.innerHTML += `
+                    <div class="sticker-small">
+                        <img src="../logo.png" alt="Graham Bytes" class="card-logo">
+                        <img src="${qrSrc}" alt="QR Code" class="qr-image">
+                        <span class="scan-text">Scan Me!</span>
+                    </div>
+                `;
+                
+                // Compact circular sticker (25mm) for cupcake liners
+                gridCompact.innerHTML += `
+                    <div class="sticker-compact">
+                        <img src="../logo.png" alt="Graham Bytes" class="card-logo">
+                        <img src="${qrSrc}" alt="QR Code" class="qr-image">
+                        <span class="scan-text">Scan!</span>
+                    </div>
+                `;
+            }
+        }
+        
+        function printLarge() {
+            document.body.className = 'preview-large';
+            setTimeout(() => {
+                window.print();
+                document.body.className = '';
+            }, 100);
+        }
+        
+        function printMedium() {
+            document.body.className = 'preview-medium';
+            setTimeout(() => {
+                window.print();
+                document.body.className = '';
+            }, 100);
+        }
+        
+        function printSmall() {
+            document.body.className = 'preview-small';
+            setTimeout(() => {
+                window.print();
+                document.body.className = '';
+            }, 100);
+        }
+        
+        function printCompact() {
+            document.body.className = 'preview-compact';
+            setTimeout(() => {
+                window.print();
+                document.body.className = '';
+            }, 100);
+        }
+        
+        document.addEventListener('DOMContentLoaded', generateStickers);
+    </script>
 </body>
 </html>
