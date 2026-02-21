@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graham Bytes - Build Your Combo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/combo.css">
+</head>
+<body class="combo-page">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="combo-header">
+        <div class="combo-brand">
+            <img src="logo.png" alt="Graham Bytes logo" class="combo-logo">
+            <div>
+                <h1>Graham Bytes &mdash; Build Your Combo</h1>
+                <p class="combo-subtitle">Create your mix, place an order, and track points.</p>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="combo-shell">
+        <div class="combo-grid">
+            <section class="panel builder-panel" aria-labelledby="builder-title">
+                <h2 id="builder-title" class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M3 6h2l1 9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-6H7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9" cy="20" r="1.3" fill="currentColor"/>
+                        <circle cx="17" cy="20" r="1.3" fill="currentColor"/>
+                    </svg>
+                    Build Your Combo
+                </h2>
+
+                <form id="item-form" class="item-form" novalidate aria-describedby="item-form-help">
+                    <div class="field-group">
+                        <label for="item-flavor">Available Flavors</label>
+                        <select id="item-flavor" name="itemFlavor" required>
+                            <option value="">Select a flavor</option>
+                            <option value="html">HTML (Mango)</option>
+                            <option value="css">CSS (Ube)</option>
+                            <option value="javascript">JavaScript (Banana)</option>
+                        </select>
+                        <p id="item-flavor-error" class="field-error" aria-live="polite"></p>
+                    </div>
+
+                    <div class="item-form__row">
+                        <div class="field-group">
+                            <label for="item-size">Size</label>
+                            <select id="item-size" name="itemSize" required>
+                                <option value="">Select size</option>
+                                <option value="small">Small - 7 pesos</option>
+                                <option value="medium">Medium - 10 pesos</option>
+                                <option value="large">Large - 12 pesos</option>
+                            </select>
+                            <p id="item-size-error" class="field-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="item-qty">Quantity</label>
+                            <input id="item-qty" name="itemQty" type="number" min="1" step="1" inputmode="numeric" required>
+                            <p id="item-qty-error" class="field-error" aria-live="polite"></p>
+                        </div>
+                    </div>
+
+                    <fieldset class="field-group toppings-group" aria-describedby="toppings-help">
+                        <legend>Toppings</legend>
+                        <div class="toppings-grid">
+                            <label class="topping-item" for="top-marshmallows">
+                                <input id="top-marshmallows" type="checkbox" name="toppings" value="Marshmallows">
+                                Marshmallows
+                            </label>
+                            <label class="topping-item" for="top-sprinkles">
+                                <input id="top-sprinkles" type="checkbox" name="toppings" value="Sprinkles">
+                                Sprinkles
+                            </label>
+                            <label class="topping-item" for="top-choco-syrup">
+                                <input id="top-choco-syrup" type="checkbox" name="toppings" value="Choco Syrup">
+                                Choco Syrup
+                            </label>
+                            <label class="topping-item" for="top-choco-chips">
+                                <input id="top-choco-chips" type="checkbox" name="toppings" value="Choco Chips">
+                                Choco Chips
+                            </label>
+                            <label class="topping-item" for="top-caramel-drizzle">
+                                <input id="top-caramel-drizzle" type="checkbox" name="toppings" value="Caramel Drizzle">
+                                Caramel Drizzle
+                            </label>
+                        </div>
+                        <p id="toppings-help" class="muted">Each topping adds 2 pesos.</p>
+                    </fieldset>
+
+                    <p class="price-preview" aria-live="polite">
+                        Unit Price: <strong id="unit-price">₱0.00</strong>
+                    </p>
+
+                    <button id="add-item-btn" class="btn btn-primary" type="submit">
+                        <span class="btn-text">Add Combo to Cart</span>
+                    </button>
+                    <p id="item-form-help" class="muted">Pick flavor, size, toppings, and quantity.</p>
+                </form>
+
+                <section class="cart-panel" aria-labelledby="cart-title">
+                    <h3 id="cart-title">Cart</h3>
+                    <ul id="cart-list" class="cart-list" aria-live="polite" aria-label="Cart items"></ul>
+                    <p id="cart-empty" class="empty-state">Your cart is empty.</p>
+                </section>
+
+                <div class="summary-row" aria-live="polite">
+                    <span>Subtotal</span>
+                    <strong id="subtotal">₱0.00</strong>
+                </div>
+
+                <button id="add-order-btn" class="btn btn-primary btn--block" type="button" disabled aria-disabled="true">
+                    <span class="spinner" aria-hidden="true"></span>
+                    <span class="btn-text">Add to Order</span>
+                </button>
+                <p id="cart-error" class="field-error" aria-live="polite"></p>
+            </section>
+
+            <section class="panel user-panel" aria-labelledby="user-title">
+                <h2 id="user-title" class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 1.8 9.2 7.5l-6.2.9 4.5 4.4-1.1 6.2L12 16l5.6 3-1.1-6.2L21 8.4l-6.2-.9L12 1.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                    </svg>
+                    User Panel
+                </h2>
+
+                <div class="field-group">
+                    <label for="user-id">User ID</label>
+                    <input id="user-id" name="userId" type="text" maxlength="40" autocomplete="off" spellcheck="false" required>
+                    <p id="user-id-error" class="field-error" aria-live="polite"></p>
+                </div>
+
+                <section class="points-card" aria-labelledby="points-title">
+                    <h3 id="points-title" class="card-title">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 1.8 9.2 7.5l-6.2.9 4.5 4.4-1.1 6.2L12 16l5.6 3-1.1-6.2L21 8.4l-6.2-.9L12 1.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                        </svg>
+                        Points
+                    </h3>
+                    <p id="points-loading" class="inline-loader hidden" aria-live="polite">Loading points...</p>
+
+                    <div class="points-grid">
+                        <p class="metric">
+                            <span class="metric-label">Current Points</span>
+                            <strong id="points-value">0</strong>
+                        </p>
+                        <p class="metric">
+                            <span class="metric-label">Pending Claim</span>
+                            <strong id="pending-points">0</strong>
+                        </p>
+                    </div>
+
+                    <button id="claim-points-btn" class="btn btn-secondary btn--block" type="button" disabled aria-disabled="true">
+                        <span class="spinner" aria-hidden="true"></span>
+                        <span class="btn-text">Claim Points</span>
+                    </button>
+                </section>
+
+                <section class="history-card" aria-labelledby="history-title">
+                    <h3 id="history-title" class="card-title">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+                            <path d="M12 7v5l3.6 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Order History
+                    </h3>
+                    <p id="orders-loading" class="inline-loader hidden" aria-live="polite">Loading orders...</p>
+                    <ul id="order-history" class="order-history" aria-live="polite" aria-label="Order history list"></ul>
+                    <p id="history-empty" class="empty-state">Enter a valid user ID to load order history.</p>
+                </section>
+
+                <button id="random-trivia-btn" class="btn btn-tertiary btn--block" type="button">
+                    Random Trivia
+                </button>
+            </section>
+        </div>
+    </main>
+
+    <div id="toast-region" class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+    <div id="sr-announcer" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+    <script src="js/random.js"></script>
+    <script src="js/combo.js"></script>
+</body>
+</html>

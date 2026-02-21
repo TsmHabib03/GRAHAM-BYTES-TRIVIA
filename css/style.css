@@ -281,6 +281,30 @@ a {
     box-shadow: 0 15px 30px rgba(211, 84, 0, 0.4);
 }
 
+.build-combo-btn {
+    width: 100%;
+    max-width: 350px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--tech-blue-dark);
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(47, 128, 237, 0.25);
+    border-radius: 50px;
+    padding: 0.95rem 1.5rem;
+    box-shadow: 0 8px 20px rgba(47, 128, 237, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.build-combo-btn:hover {
+    transform: translateY(-2px);
+    background: #ffffff;
+    box-shadow: 0 12px 24px rgba(47, 128, 237, 0.22);
+}
+
 .btn-text {
     font-size: 1.1rem;
 }
