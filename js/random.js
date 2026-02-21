@@ -39,12 +39,56 @@ window.getRandomTriviaExcluding = getRandomTriviaExcluding;
 
 
 // ...existing code...
-const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyHRveRC0jZRfdgSTRuMJ5Rzc6AyU2BQyyLfa5wZVInpwv1NLo3uiKvdcu0o1g3w49D/exec'; // replace with your deployed web app URL
+const DEFAULT_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxCJarOJtGiwWU6QUCTSpIS3C5V9RALrMwUGD6bXj3amav91R-9Y8r4W1lcJRWjOAgT/exec'; // replace with your deployed web app URL
 const API_KEY = '4e1675f34ce90c629fbbb5b8dcf218dea20ece5db37e022f2d6676a6c77bb44f'; // DO NOT put a real secret in client-side code
 const REQUIRED_SHEETS = ['orders', 'points'];
 let hasWarnedOrdersSheetMissing = false;
 let hasWarnedPointsSheetMissing = false;
 const inFlightOrderRequests = new Map();
+
+function resolveSheetsApiUrl() {
+  try {
+    const fromStorage = localStorage.getItem('gb_sheets_api_url');
+    if (fromStorage && /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/i.test(fromStorage.trim())) {
+      return fromStorage.trim();
+    }
+  } catch (_error) {
+    // Ignore storage access issues.
+  }
+  return DEFAULT_SHEETS_API_URL;
+}
+
+let SHEETS_API_URL = resolveSheetsApiUrl();
+
+window.setSheetsApiUrl = function setSheetsApiUrl(url) {
+  const next = String(url || '').trim();
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/i.test(next)) {
+    throw new Error('Invalid Apps Script URL. Expected https://script.google.com/macros/s/.../exec');
+  }
+  SHEETS_API_URL = next;
+  localStorage.setItem('gb_sheets_api_url', next);
+};
+
+window.resetSheetsApiUrl = function resetSheetsApiUrl() {
+  SHEETS_API_URL = DEFAULT_SHEETS_API_URL;
+  try {
+    localStorage.removeItem('gb_sheets_api_url');
+  } catch (_error) {
+    // Ignore storage access issues.
+  }
+};
+
+function hasCustomSheetsApiUrl() {
+  return String(SHEETS_API_URL) !== String(DEFAULT_SHEETS_API_URL);
+}
+
+function resetSheetsApiUrlOnFailure(reason) {
+  if (!hasCustomSheetsApiUrl()) {
+    return;
+  }
+  window.resetSheetsApiUrl();
+  console.warn(`Reset Apps Script URL to default after failure: ${reason}`);
+}
 
 function buildApiUrl(route, extraQuery = {}) {
   const query = new URLSearchParams({
@@ -61,6 +105,70 @@ function parseJsonSafely(text) {
   } catch (_error) {
     return null;
   }
+}
+
+function shouldUseJsonpFallback(error) {
+  const msg = String(error && error.message ? error.message : error).toLowerCase();
+  return msg.includes('failed to fetch')
+    || msg.includes('networkerror')
+    || msg.includes('load failed');
+}
+
+function serializeForQuery(payload) {
+  const out = {};
+  Object.entries(payload || {}).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+      out[key] = String(value);
+      return;
+    }
+    out[key] = JSON.stringify(value);
+  });
+  return out;
+}
+
+function requestJsonp(route, query, timeoutMs = 15000) {
+  return new Promise((resolve, reject) => {
+    const callbackName = `__gbJsonp_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    const script = document.createElement('script');
+    let timeoutId;
+
+    const cleanup = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+      try {
+        delete window[callbackName];
+      } catch (_error) {
+        window[callbackName] = undefined;
+      }
+    };
+
+    window[callbackName] = (payload) => {
+      cleanup();
+      resolve(payload);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error(`JSONP request failed for ${route}. Check deployed Apps Script /exec URL.`));
+    };
+
+    timeoutId = setTimeout(() => {
+      cleanup();
+      reject(new Error('JSONP request timed out'));
+    }, timeoutMs);
+
+    script.src = buildApiUrl(route, {
+      ...(query || {}),
+      callback: callbackName,
+      _ts: Date.now()
+    });
+    document.head.appendChild(script);
+  });
 }
 
 function toReadableMessage(payload, rawText, fallbackMessage) {
@@ -85,12 +193,48 @@ function toConfigErrorMessage(originalMessage) {
 }
 
 async function requestGet(route, query, fallbackMessage) {
-  const res = await fetch(
-    buildApiUrl(route, { ...(query || {}), _ts: Date.now() }),
-    { cache: 'no-store' }
-  );
-  const rawText = await res.text();
-  const payload = parseJsonSafely(rawText);
+  const fetchGet = async () => {
+    const response = await fetch(
+      buildApiUrl(route, { ...(query || {}), _ts: Date.now() }),
+      { cache: 'no-store' }
+    );
+    const text = await response.text();
+    const parsed = parseJsonSafely(text);
+    return { response, text, parsed };
+  };
+
+  let res;
+  let rawText = '';
+  let payload = null;
+
+  try {
+    ({ response: res, text: rawText, parsed: payload } = await fetchGet());
+    if (res.status === 404 && hasCustomSheetsApiUrl()) {
+      resetSheetsApiUrlOnFailure(`GET ${route} returned 404`);
+      ({ response: res, text: rawText, parsed: payload } = await fetchGet());
+    }
+  } catch (error) {
+    if (shouldUseJsonpFallback(error)) {
+      try {
+        const jsonpPayload = await requestJsonp(route, serializeForQuery(query));
+        if (jsonpPayload && jsonpPayload.error) {
+          throw new Error(String(jsonpPayload.error));
+        }
+        return jsonpPayload;
+      } catch (jsonpError) {
+        if (hasCustomSheetsApiUrl()) {
+          resetSheetsApiUrlOnFailure(`JSONP GET ${route} failed`);
+          const retryPayload = await requestJsonp(route, serializeForQuery(query));
+          if (retryPayload && retryPayload.error) {
+            throw new Error(String(retryPayload.error));
+          }
+          return retryPayload;
+        }
+        throw jsonpError;
+      }
+    }
+    throw error;
+  }
 
   if (!res.ok) {
     throw new Error(toReadableMessage(payload, rawText, `${fallbackMessage}: ${res.status}`));
@@ -124,10 +268,45 @@ async function requestPost(route, bodyPayload) {
     body: form
   };
 
-  const res = await fetch(buildApiUrl(route), requestOptions);
+  const fetchPost = async () => {
+    const response = await fetch(buildApiUrl(route), requestOptions);
+    const text = await response.text();
+    const parsed = parseJsonSafely(text);
+    return { response, text, parsed };
+  };
 
-  const rawText = await res.text();
-  const payload = parseJsonSafely(rawText);
+  let res;
+  let rawText = '';
+  let payload = null;
+
+  try {
+    ({ response: res, text: rawText, parsed: payload } = await fetchPost());
+    if (res.status === 404 && hasCustomSheetsApiUrl()) {
+      resetSheetsApiUrlOnFailure(`POST ${route} returned 404`);
+      ({ response: res, text: rawText, parsed: payload } = await fetchPost());
+    }
+  } catch (error) {
+    if (shouldUseJsonpFallback(error)) {
+      try {
+        const jsonpPayload = await requestJsonp(route, serializeForQuery(bodyPayload));
+        if (jsonpPayload && jsonpPayload.error) {
+          throw new Error(String(jsonpPayload.error));
+        }
+        return jsonpPayload;
+      } catch (jsonpError) {
+        if (hasCustomSheetsApiUrl()) {
+          resetSheetsApiUrlOnFailure(`JSONP POST ${route} failed`);
+          const retryPayload = await requestJsonp(route, serializeForQuery(bodyPayload));
+          if (retryPayload && retryPayload.error) {
+            throw new Error(String(retryPayload.error));
+          }
+          return retryPayload;
+        }
+        throw jsonpError;
+      }
+    }
+    throw error;
+  }
 
   if (!res.ok) {
     throw new Error(toReadableMessage(payload, rawText, `${route} failed: ${res.status}`));
@@ -158,7 +337,7 @@ function createOrderRequestFingerprint(payload) {
 }
 
 async function postOrder(userId, items, total, clientOrderId) {
-  const payload = { key: API_KEY, userId, items, total, intent: 'create' };
+  const payload = { key: API_KEY, userId, items, total, status: 'pending', intent: 'create' };
   if (clientOrderId) {
     payload.clientOrderId = String(clientOrderId);
   }
@@ -204,7 +383,7 @@ async function fetchOrders(userId) {
 }
 
 async function addPoints(userId, points) {
-  const payload = { key: API_KEY, userId, points };
+  const payload = { key: API_KEY, userId, points, intent: 'add' };
 
   try {
     return await requestPost('points', payload);

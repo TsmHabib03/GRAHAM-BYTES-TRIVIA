@@ -7,7 +7,7 @@
 
 const API_KEY = '4e1675f34ce90c629fbbb5b8dcf218dea20ece5db37e022f2d6676a6c77bb44f';
 const SPREADSHEET_ID = ''; // Optional: put your Sheet ID here if this script is standalone.
-const BACKEND_VERSION = 'orders-columns-v5-strict-write-2026-02-21';
+const BACKEND_VERSION = 'orders-columns-v8-jsonp-cors-fallback-2026-02-21';
 const ORDER_DEDUPE_TTL_SECONDS = 180;
 
 const SHEET_CONFIG = {
@@ -16,19 +16,32 @@ const SHEET_CONFIG = {
 };
 
 function doGet(e) {
+  const params = (e && e.parameter) || {};
+  const callback = normalizeText_(params.callback);
   try {
-    const params = (e && e.parameter) || {};
     validateKey_(params.key);
 
     const route = String(params.route || '').toLowerCase();
-    if (route === 'health') return handleHealth_();
-    if (route === 'init') return handleInit_();
-    if (route === 'orders') return handleGetOrders_(params);
-    if (route === 'points') return handleGetPoints_(params);
+    const intent = normalizeText_(params.intent || params.action).toLowerCase();
 
-    return jsonOutput_({ error: 'Invalid route.' });
+    let response;
+    if (route === 'health') response = handleHealth_();
+    else if (route === 'init') response = handleInit_();
+    else if (route === 'orders') {
+      response = intent === 'create'
+        ? handlePostOrder_(params)
+        : handleGetOrders_(params);
+    } else if (route === 'points') {
+      response = (intent === 'add' || intent === 'create')
+        ? handlePostPoints_(params)
+        : handleGetPoints_(params);
+    } else {
+      response = jsonOutput_({ error: 'Invalid route.' });
+    }
+
+    return withJsonp_(response, callback);
   } catch (error) {
-    return jsonOutput_({ error: error.message || String(error) });
+    return withJsonp_(jsonOutput_({ error: error.message || String(error) }), callback);
   }
 }
 
@@ -231,6 +244,7 @@ function handlePostOrder_(body) {
     const total = Number(normalizedItems.reduce(function (sum, item) {
       return sum + (item.quantity * item.price);
     }, 0).toFixed(2));
+    const orderStatus = normalizeText_(body.status || 'pending').toLowerCase() || 'pending';
 
     // Additional server-side dedupe: same user + same payload + same total in short window.
     const dedupeFingerprint = buildOrderFingerprint_(userId, normalizedItems, total);
@@ -264,6 +278,13 @@ function handlePostOrder_(body) {
         row[schema.idx.toppings] = item.toppings;
         row[schema.idx.quantity] = item.quantity;
         row[schema.idx.price] = item.price;
+        if (schema.idx.total >= 0) {
+          // Keep order-level total visible in every order row.
+          row[schema.idx.total] = total;
+        }
+        if (schema.idx.status >= 0) {
+          row[schema.idx.status] = orderStatus;
+        }
         sheet.appendRow(row);
         appended += 1;
         return;
@@ -282,8 +303,8 @@ function handlePostOrder_(body) {
         qty: item.quantity,
         price: item.price
       }]);
-      legacyRow[schema.idx.total] = item.quantity * item.price;
-      if (schema.idx.status >= 0) legacyRow[schema.idx.status] = 'submitted';
+      legacyRow[schema.idx.total] = total;
+      if (schema.idx.status >= 0) legacyRow[schema.idx.status] = orderStatus;
       sheet.appendRow(legacyRow);
       appended += 1;
     });
@@ -296,6 +317,7 @@ function handlePostOrder_(body) {
       id: orderId,
       timestamp: timestamp,
       total: total,
+      status: orderStatus,
       appendedRows: appended
     });
   } finally {
@@ -364,6 +386,10 @@ function handleGetOrders_(params) {
       const toppingsText = normalizeText_(row[schema.idx.toppings]);
       const quantity = Math.max(1, Math.round(toNumber_(row[schema.idx.quantity]) || 1));
       const price = Math.max(0, toNumber_(row[schema.idx.price]) || 0);
+      const statusText = schema.idx.status >= 0
+        ? (normalizeText_(row[schema.idx.status]).toLowerCase() || 'pending')
+        : 'pending';
+      const explicitTotal = schema.idx.total >= 0 ? toNumber_(row[schema.idx.total]) : NaN;
 
       if (!grouped[id]) {
         grouped[id] = {
@@ -372,7 +398,7 @@ function handleGetOrders_(params) {
           userId: userId,
           items: [],
           total: 0,
-          status: 'submitted'
+          status: statusText
         };
       }
 
@@ -384,7 +410,14 @@ function handleGetOrders_(params) {
         qty: quantity,
         price: price
       });
-      grouped[id].total += quantity * price;
+      if (isFinite(explicitTotal) && explicitTotal > 0) {
+        grouped[id].total = Math.max(grouped[id].total, explicitTotal);
+      } else {
+        grouped[id].total += quantity * price;
+      }
+      if (statusText) {
+        grouped[id].status = statusText;
+      }
       return;
     }
 
@@ -650,6 +683,24 @@ function jsonOutput_(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+function withJsonp_(textOutput, callback) {
+  const cb = normalizeText_(callback);
+  if (!cb) {
+    return textOutput;
+  }
+  if (!/^[A-Za-z_$][0-9A-Za-z_$\\.]*$/.test(cb)) {
+    return jsonOutput_({ error: 'Invalid callback name.' });
+  }
+
+  const json = (textOutput && typeof textOutput.getContent === 'function')
+    ? textOutput.getContent()
+    : JSON.stringify(textOutput || {});
+
+  return ContentService
+    .createTextOutput(cb + '(' + json + ');')
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
 }
 
 function normalizeText_(value) {
